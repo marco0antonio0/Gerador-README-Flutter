@@ -4,6 +4,7 @@ import 'package:compilador_readme/view/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'dart:math' as math;
 
 Backend instance = Backend.instance;
 
@@ -44,7 +45,7 @@ class _Page_1State extends State<Page_1> {
                     return ListBTN(index);
                   }))),
       BTN_F(largura, fn: () {
-        instance.gerar();
+        instance.GerarTexto = instance.gerar();
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => Page_2()));
       })
@@ -85,13 +86,16 @@ class ListBTN extends StatefulWidget {
 class _ListBTNState extends State<ListBTN> {
   //===================================================
   final Textcontroller = TextEditingController();
+  final Textcontroller_ = TextEditingController();
   List<Map<dynamic, dynamic>> statusBTN = [
     {'text': 'H1', 'status': true},
     {'text': 'H2', 'status': false},
     {'text': 'H3', 'status': false},
     {'text': 'Text', 'status': false},
     {'text': 'Image', 'status': false},
+    {'text': 'Image Button', 'status': false},
   ];
+  bool switch_ = true;
   @override
   Widget build(BuildContext context) {
     //===================================================
@@ -132,27 +136,65 @@ class _ListBTNState extends State<ListBTN> {
               width: largura,
               color: Colors.black)
           : Container(),
-      Scrollbar(
-          controller: scrollControler,
-          isAlwaysShown: true,
-          interactive: true,
-          child: Container(
-              height: responsive_height,
-              width: largura,
-              margin: EdgeInsets.symmetric(vertical: 30),
-              child: ListView.builder(
-                  controller: scrollControler,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: statusBTN.length,
-                  itemBuilder: (context, index) {
-                    return BTN(controllerBTN, index, responsive_height,
-                        responsive_width, statusBTN);
-                  }))),
+      Align(
+          alignment: Alignment(-.9, 1),
+          child: IconButton(
+              onPressed: () {
+                setState(() {
+                  if (switch_) {
+                    switch_ = false;
+                  } else {
+                    switch_ = true;
+                  }
+                });
+                print(switch_);
+              },
+              icon: Transform.rotate(
+                angle: (!switch_ ? (-90) : (0)) * math.pi / 180,
+                child: Icon(Icons.expand_circle_down_outlined),
+              ),
+              iconSize: 50)),
+      switch_
+          ? Scrollbar(
+              controller: scrollControler,
+              isAlwaysShown: true,
+              interactive: true,
+              child: Container(
+                  height: responsive_height,
+                  width: largura,
+                  margin: EdgeInsets.symmetric(vertical: 30),
+                  child: ListView.builder(
+                      controller: scrollControler,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: statusBTN.length,
+                      itemBuilder: (context, index) {
+                        return BTN(controllerBTN, index, responsive_height,
+                            responsive_width, statusBTN);
+                      })))
+          : Container(),
       //==============================================================================================<<<<<<<<<
 
       textBloco(largura: largura, text: isTrueList(statusBTN)),
-      textFieldPerson(largura, Textcontroller, widget.x, isTrueList(statusBTN)),
-      instance.qtds_itens - 1 == widget.x ? BTN_circular(largura) : Container(),
+      textFieldPerson(largura, Textcontroller, Textcontroller_, widget.x,
+          isTrueList(statusBTN)),
+      //=================================================================================
+      //  if link exists // 'Image Button'
+      isTrueList(statusBTN) == 'Image Button'
+          ? textBloco(largura: largura, text: 'Link')
+          : Container(),
+      isTrueList(statusBTN) == 'Image Button'
+          ? textFieldPerson(largura, Textcontroller, Textcontroller_, widget.x,
+              isTrueList(statusBTN),
+              default_: false)
+          : Container(),
+      //=================================================================================
+      instance.qtds_itens - 1 == widget.x
+          ? BTN_circular(largura, fn: () {
+              setState(() {
+                switch_ = false;
+              });
+            })
+          : Container(),
       //==============================================================================================<<<<<<<<<
     ]);
   }
@@ -160,8 +202,15 @@ class _ListBTNState extends State<ListBTN> {
 
 //======================================================================
 //  TextField >> campo de texto
-Widget textFieldPerson(largura, Textcontroller, controler_x, type,
-    {qtds_linha = 1}) {
+Widget textFieldPerson(
+  largura,
+  TextEditingController Textcontroller,
+  TextEditingController Textcontroller_,
+  controler_x,
+  type, {
+  qtds_linha = 1,
+  default_ = true,
+}) {
   double responsive_width = 700;
   if (largura < 790) responsive_width -= 100;
   if (largura < 690) responsive_width -= 100;
@@ -181,21 +230,56 @@ Widget textFieldPerson(largura, Textcontroller, controler_x, type,
               width: responsive_width,
               child: TextField(
                   maxLines: qtds_linha,
-                  controller: Textcontroller,
+                  controller: default_ ? Textcontroller : Textcontroller_,
+
+                  //=======================================================================================
+                  //        falta corrigir a redundancia de   <<<<<<<< IF >>>>>>>>
                   onChanged: (value) {
                     if (value.length > 0) {
                       try {
-                        instance.controleDeDados[controler_x] = {
-                          'id': controler_x,
-                          'type': type.toString(),
-                          'text': value.toString()
-                        };
+                        //========================================
+                        //  default_ == true
+                        if (default_) {
+                          instance.controleDeDados[controler_x] = {
+                            'id': controler_x,
+                            'type': type.toString(),
+                            'text': Textcontroller.text,
+                            'link': Textcontroller_.text
+                          };
+                          //========================================
+                        } else {
+                          //========================================
+                          //  default_ == false
+                          instance.controleDeDados[controler_x] = {
+                            'id': controler_x,
+                            'type': type.toString(),
+                            'text': Textcontroller.text,
+                            'link': Textcontroller_.text
+                          };
+                          //========================================
+                        }
                       } catch (e) {
-                        instance.controleDeDados.add({
-                          'id': controler_x,
-                          'type': type.toString(),
-                          'text': value.toString()
-                        });
+                        //========================================
+                        //  default_ == true
+                        if (default_) {
+                          instance.controleDeDados.add({
+                            'id': controler_x,
+                            'type': type.toString(),
+                            'text': Textcontroller.text,
+                            'link': Textcontroller_.text
+                          });
+                          //========================================
+                        } else {
+                          //========================================
+                          //  default_ == false
+                          instance.controleDeDados.add({
+                            'id': controler_x,
+                            'type': type.toString(),
+                            'text': Textcontroller.text,
+                            'link': Textcontroller_.text
+                          });
+                          //========================================
+                        }
                       }
                     } else {
                       instance.controleDeDados.removeAt(controler_x);
@@ -278,7 +362,7 @@ Widget BTN_F(largura, {@required fn}) {
   );
 }
 
-Widget BTN_circular(largura, {status = true, controler_x}) {
+Widget BTN_circular(largura, {status = true, fn}) {
   double responsive_width = 700;
   if (largura < 790) responsive_width -= 100;
   if (largura < 690) responsive_width -= 100;
@@ -296,6 +380,7 @@ Widget BTN_circular(largura, {status = true, controler_x}) {
                 default_: false,
                 fn: status
                     ? () {
+                        fn();
                         instance.qtds_itens += 1;
                         instance.setState(() {});
                       }

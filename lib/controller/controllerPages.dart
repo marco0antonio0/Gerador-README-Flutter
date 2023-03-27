@@ -14,25 +14,29 @@ class Backend {
   int qtds_itens = 1;
 
   List<Map<dynamic, dynamic>> controleDeDados = [
-    {'id': '0', 'type': 'null', 'text': 'null'}
+    {'id': '0', 'type': 'null', 'text': 'null', 'link': 'null'}
   ];
   String GerarTexto = '';
   gerar() {
+    String text = '';
+    String args2 = '';
     for (var i = 0; i < controleDeDados.length; i++) {
-      GerarTexto +=
-          fn_typeFormat(controleDeDados[i]['type'], controleDeDados[i]['text']);
+      if (controleDeDados[i]['text'].length > 0) {
+        text += fn_typeFormat(controleDeDados[i]['type'],
+            controleDeDados[i]['text'], controleDeDados[i]['link']);
+      }
     }
-    return GerarTexto;
+    return text;
   }
 
-  fn_typeFormat(type, args) {
+  fn_typeFormat(type, args, args2) {
     var y = '';
     if (type == "H1") y = "# $args\n";
     if (type == "H2") y = "## $args\n";
     if (type == "H3") y = "### $args\n";
     if (type == "Text") y = "<span><br>$args <br><\span>\n";
     if (type == "Image") y = "![img]($args)\n";
-    /* ![img](https://github.com/marco0antonio0/marco0antonio0/blob/main/imagens/img_page.png?raw=true */
+    if (type == "Image Button") y = "[![img]($args)]($args2)\n";
     return y;
   }
 }
