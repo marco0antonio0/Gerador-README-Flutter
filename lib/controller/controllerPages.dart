@@ -30,7 +30,7 @@ class Backend {
     if (type == "H2") y = "## $args\n";
     if (type == "H3") y = "### $args\n";
     if (type == "Text") y = "<span><br>$args <br><\span>\n";
-    if (type == "Image") y = "[img]($args)\n";
+    if (type == "Image") y = "![img]($args)\n";
     /* ![img](https://github.com/marco0antonio0/marco0antonio0/blob/main/imagens/img_page.png?raw=true */
     return y;
   }
