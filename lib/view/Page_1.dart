@@ -44,6 +44,7 @@ class _Page_1State extends State<Page_1> {
                     return ListBTN(index);
                   }))),
       BTN_F(largura, fn: () {
+        instance.gerar();
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => Page_2()));
       })
