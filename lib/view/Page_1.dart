@@ -182,22 +182,18 @@ Widget textFieldPerson(largura, Textcontroller, controler_x, type,
                   maxLines: qtds_linha,
                   controller: Textcontroller,
                   onChanged: (value) {
-                    //================================================
-                    String text =
-                        instance.fn_typeFormat(type, value.toString());
-                    //================================================
                     if (value.length > 0) {
                       try {
                         instance.controleDeDados[controler_x] = {
                           'id': controler_x,
                           'type': type.toString(),
-                          'text': text
+                          'text': value.toString()
                         };
                       } catch (e) {
                         instance.controleDeDados.add({
                           'id': controler_x,
                           'type': type.toString(),
-                          'text': text
+                          'text': value.toString()
                         });
                       }
                     } else {
