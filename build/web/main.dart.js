@@ -35116,13 +35116,13 @@ m=J.fQ(p)
 l=m.j(p,"H1")?"# "+A.h(o)+"\n":""
 if(m.j(p,"H2"))l="## "+A.h(o)+"\n"
 if(m.j(p,"H3"))l="### "+A.h(o)+"\n"
-if(m.j(p,"code"))l="```\n"+A.h(o)+"\n```\n"
+if(m.j(p,"code"))l="```\n"+A.h(o)+"\n```<br>\n"
 if(m.j(p,"Text"))l="<span>"+A.h(o)+" <br><span>\n"
-if(m.j(p,"Image"))l="![img]("+A.h(o)+")\n"
+if(m.j(p,"Image"))l="![img]("+A.h(o)+")<br>\n"
 if(m.j(p,"Buttom Image"))l=k+A.h(n)+'"><img src="'+A.h(o)+'" alt="drawing" width="40%" height="auto"><a><br>\n'
-if(m.j(p,"Buttom Download"))l=k+A.h(o)+'"><img src="https://github.com/marco0antonio0/Gerador-README-Flutter/blob/e6b48f8f422605559cebc4da02aeae6037972dd8/repositorio_images/BTN_Download.png" alt="drawing" width="40%" height="auto"><a><br>\n'
-if(m.j(p,"Buttom ferramenta"))l=k+A.h(o)+'"><img src="https://github.com/marco0antonio0/Gerador-README-Flutter/blob/e6b48f8f422605559cebc4da02aeae6037972dd8/repositorio_images/BTN_acesse_a_ferramenta.png" alt="drawing" width="40%" height="auto"><a><br>\n'
-r+=m.j(p,"Buttom whatsapp")?k+A.h(o)+'"><img src="https://github.com/marco0antonio0/Gerador-README-Flutter/blob/e6b48f8f422605559cebc4da02aeae6037972dd8/repositorio_images/BTN_chame_no_whatsapp.png" alt="drawing" width="40%" height="auto"><a><br>\n':l}return r}}
+if(m.j(p,"Buttom Download"))l=k+A.h(o)+'"><img src="https://github.com/marco0antonio0/Gerador-README-Flutter/blob/e6b48f8f422605559cebc4da02aeae6037972dd8/repositorio_images/BTN_Download.png" alt="drawing" width="30%" height="auto"><a><br>\n'
+if(m.j(p,"Buttom ferramenta"))l=k+A.h(o)+'"><img src="https://github.com/marco0antonio0/Gerador-README-Flutter/blob/e6b48f8f422605559cebc4da02aeae6037972dd8/repositorio_images/BTN_acesse_a_ferramenta.png" alt="drawing" width="45%" height="auto"><a><br>\n'
+r+=m.j(p,"Buttom whatsapp")?k+A.h(o)+'"><img src="https://github.com/marco0antonio0/Gerador-README-Flutter/blob/e6b48f8f422605559cebc4da02aeae6037972dd8/repositorio_images/BTN_chame_no_whatsapp.png" alt="drawing" width="30%" height="auto"><a><br>\n':l}return r}}
 A.v6.prototype={
 am(){return new A.Lz(A.mO(),A.wN(null),B.k)}}
 A.Lz.prototype={
