@@ -1,5 +1,6 @@
 import 'package:facilities_readme/controller/controller.dart';
 import 'package:facilities_readme/view/page_2.dart';
+import 'package:facilities_readme/view/page_preview.dart';
 import 'package:facilities_readme/view/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -404,7 +405,7 @@ class btn_GerarReadme extends StatelessWidget {
                     onTap: () {
                       //
                       instance.text_pass = instance.gerar();
-                      Get.to(() => Page_2());
+                      Get.to(() => Page_preview());
                       //
                     },
                     child: Container(

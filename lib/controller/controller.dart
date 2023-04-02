@@ -41,7 +41,7 @@ class Backend {
     //====================================================
     if (type == "Text") y = "<span>$args <br><\span>\n";
     //====================================================
-    if (type == "Image") y = "![img]($args)<br>\n";
+    if (type == "Image") y = "![img]($args) \n\  \n ";
     //====================================================
     if (type == "Buttom Image")
       y = '<a href="https://$args2"><img src="$args" alt="drawing" width="40%" height="auto"><a><br>\n';
