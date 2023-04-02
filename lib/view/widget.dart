@@ -71,6 +71,7 @@ class BTN_type extends StatelessWidget {
   var index;
   Function? fn;
   @override
+  var enable = false;
   Widget build(BuildContext context) {
     double largura = MediaQuery.of(context).size.width;
     double responsive = 0;
@@ -88,6 +89,7 @@ class BTN_type extends StatelessWidget {
                 enable: false, text: type, fontSize: 20 + (responsive * 0.1)),
           ),
           decoration: BoxDecoration(
+              boxShadow: Efeito_sombra(),
               borderRadius: BorderRadius.circular(30),
               color: status ? Colors.blue : Colors.black38)),
     );
@@ -130,7 +132,9 @@ Widget BTN_edite(responsive_larguraContainer, {fn}) {
         height: 50,
         width: responsive_larguraContainer * 0.25,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30), color: Color(0xff55FFC2)),
+            borderRadius: BorderRadius.circular(30),
+            color: Color(0xff55FFC2),
+            boxShadow: Efeito_sombra()),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -153,7 +157,9 @@ Widget BTN_salve(responsive_larguraContainer, {fn}) {
         height: 50,
         width: responsive_larguraContainer * 0.25,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30), color: Color(0xff55FFC2)),
+            boxShadow: Efeito_sombra(),
+            borderRadius: BorderRadius.circular(30),
+            color: Color(0xff55FFC2)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -176,7 +182,9 @@ Widget BTN_delete(responsive_larguraContainer, {fn}) {
         height: 50,
         width: responsive_larguraContainer * 0.25,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30), color: Color(0xffFF5555)),
+            borderRadius: BorderRadius.circular(30),
+            color: Color(0xffFF5555),
+            boxShadow: Efeito_sombra()),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

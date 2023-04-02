@@ -303,6 +303,9 @@ class _Rows_BTNsState extends State<Rows_BTNs> {
     {'type': 'code', 'status': false},
     {'type': 'Image', 'status': false},
     {'type': 'Buttom Image', 'status': false},
+    {'type': 'Buttom Download', 'status': false},
+    {'type': 'Buttom ferramenta', 'status': false},
+    {'type': 'Buttom whatsapp', 'status': false},
   ];
 
   @override
