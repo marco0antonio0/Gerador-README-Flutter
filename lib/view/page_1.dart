@@ -1,10 +1,7 @@
 import 'package:facilities_readme/controller/controller.dart';
 import 'package:facilities_readme/view/page_2.dart';
-import 'package:facilities_readme/view/page_preview.dart';
 import 'package:facilities_readme/view/widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 
 Backend instance = Backend.instance;
@@ -405,7 +402,7 @@ class btn_GerarReadme extends StatelessWidget {
                     onTap: () {
                       //
                       instance.text_pass = instance.gerar();
-                      Get.to(() => Page_preview());
+                      Get.to(() => Page_2());
                       //
                     },
                     child: Container(
