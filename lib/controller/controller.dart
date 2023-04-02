@@ -34,15 +34,11 @@ class Backend {
     if (type == "H1") y = "# $args\n";
     if (type == "H2") y = "## $args\n";
     if (type == "H3") y = "### $args\n";
-    if (type == "code")
-      y = '''```
-$args
-
-    ```''';
+    if (type == "code") y = '''```\n$args\n```\n''';
     if (type == "Text") y = "<span>$args <br><\span>\n";
     if (type == "Image") y = "![img]($args)\n";
     if (type == "Buttom Image")
-      y = '<a href="$args2"><img src="$args" alt="drawing" width="40%" height="auto"><a>';
+      y = '<a href="$args2"><img src="$args" alt="drawing" width="40%" height="auto"><a>\n';
     return y;
   }
 
