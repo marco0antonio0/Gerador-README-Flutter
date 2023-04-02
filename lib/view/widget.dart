@@ -63,37 +63,60 @@ Widget CircularImage(size, image, {enable = true}) {
 
 //==========================================================================
 //  BTN_type
-Widget BTN_type({type = '', status = false, index, fn}) {
-  return InkWell(
-    onTap: () => fn(),
-    child: Container(
-        height: 60,
-        width: 200,
-        margin: EdgeInsets.symmetric(horizontal: 10),
-        child: Center(
-          child: textPerson(enable: false, text: type),
-        ),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: status ? Colors.blue : Colors.black38)),
-  );
+class BTN_type extends StatelessWidget {
+  BTN_type(
+      {this.type = '', this.status = false, this.index, this.fn, super.key});
+  var type;
+  var status;
+  var index;
+  Function? fn;
+  @override
+  Widget build(BuildContext context) {
+    double largura = MediaQuery.of(context).size.width;
+    double responsive = 0;
+    if (largura < 1450) responsive -= 20;
+    if (largura < 650) responsive -= 20;
+    if (largura < 550) responsive -= 20;
+    return InkWell(
+      onTap: () => fn!(),
+      child: Container(
+          height: 60 + responsive,
+          width: 200 + responsive,
+          margin: EdgeInsets.symmetric(horizontal: largura < 700 ? 20 : 10),
+          child: Center(
+            child: textPerson(
+                enable: false, text: type, fontSize: 20 + (responsive * 0.1)),
+          ),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: status ? Colors.blue : Colors.black38)),
+    );
+  }
 }
 
 //==========================================================================
 // TextField
 Widget TextFielPerson(responsive_larguraContainer,
-    {controller, enabled = true, index_x}) {
+    {controller, enabled = true, index_x, textLabel = '', default_ = true}) {
+  var type = instance.dados[index_x]['type'];
+  var response = 0.7;
+  if (type == 'Text') response = 1;
+  if (type == 'Buttom Image') response = 0.5;
+  if (type == 'Image') response = 0.5;
+  if (type == 'H1' || type == 'H2' || type == 'H3') response = 0.6;
   return Container(
-      height: 50,
-      width: responsive_larguraContainer * 0.7,
+      width: responsive_larguraContainer * (response),
       child: TextField(
+          maxLines: type == 'Text' || type == 'code' ? 20 : 1,
           enabled: enabled,
           onChanged: (value) {
-            instance.dados[index_x]['args'] = value.toString();
+            instance.dados[index_x][default_ ? 'args' : 'args2'] =
+                value.toString();
             print(instance.dados);
           },
           controller: controller,
           decoration: InputDecoration(
+              labelText: textLabel.length > 0 ? textLabel : type,
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(40)))));
 }
@@ -165,4 +188,60 @@ Widget BTN_delete(responsive_larguraContainer, {fn}) {
           ],
         ),
       ));
+}
+
+//====================================================
+//  appBar
+Widget appBar(largura) {
+  double responsive_altura = 120;
+  if (largura < 1456) responsive_altura -= 10;
+  if (largura < 1092) responsive_altura -= 10;
+  if (largura < 745) responsive_altura -= 10;
+  //==================================================
+  double fontsize_1 = 30;
+  double fontsize_2 = 17;
+  if (largura < 1272) fontsize_1 -= 2;
+  if (largura < 1272) fontsize_2 -= 2;
+  if (largura < 1040) fontsize_1 -= 2;
+  if (largura < 1040) fontsize_2 -= 2;
+
+  return Container(
+    width: largura,
+    height: responsive_altura,
+    color: Color(0xff535353),
+    child: Row(children: [
+      //===================================================
+      Spacer(flex: 5),
+      //===================================================
+      //  logo
+      Align(
+          alignment: Alignment.center,
+          child: Container(
+              margin: EdgeInsets.all(0 + (fontsize_2 / 2)),
+              child: CircularImage(responsive_altura - 10, 'images/Logo.png'))),
+      //===================================================
+      Spacer(flex: 2),
+      //===================================================
+      //  textLogo
+      Container(
+          width: 300,
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Align(
+                alignment: Alignment.centerLeft,
+                child: textPerson(
+                    text: 'Facilities Readme',
+                    fontSize: fontsize_1,
+                    color: Colors.white)),
+            Align(
+                alignment: Alignment.centerLeft,
+                child: textPerson(
+                    text: 'faça readmes facil e rapido',
+                    fontSize: fontsize_2,
+                    color: Colors.white)),
+          ])),
+      //===================================================
+      Spacer(flex: 100),
+      //===================================================
+    ]),
+  );
 }

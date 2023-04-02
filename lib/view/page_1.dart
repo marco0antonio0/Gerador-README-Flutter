@@ -4,6 +4,7 @@ import 'package:facilities_readme/view/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:get/get.dart';
 
 Backend instance = Backend.instance;
 
@@ -42,93 +43,9 @@ class _Page_1State extends State<Page_1> {
           ),
         ),
         //==========================================
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Container(
-              margin: EdgeInsets.only(bottom: 100),
-              width: 700,
-              height: 70,
-              child: Align(
-                alignment: Alignment.center,
-                child: InkWell(
-                  onTap: () {
-                    //
-                    instance.text_pass = instance.gerar();
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => Page_2()));
-                    //
-                  },
-                  child: Container(
-                    height: 70,
-                    width: 200,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(40),
-                        color: Color(0xff55FFC2),
-                        boxShadow: Efeito_sombra()),
-                    child: Center(
-                      child: textPerson(enable: false, text: 'Gerar README >>'),
-                    ),
-                  ),
-                ),
-              )),
-        )
       ]),
     ));
   }
-}
-
-//====================================================
-//  appBar
-Widget appBar(largura) {
-  double responsive_altura = 120;
-  if (largura < 1456) responsive_altura -= 10;
-  if (largura < 1092) responsive_altura -= 10;
-  if (largura < 745) responsive_altura -= 10;
-  //==================================================
-  double fontsize_1 = 30;
-  double fontsize_2 = 17;
-  if (largura < 1272) fontsize_1 -= 2;
-  if (largura < 1272) fontsize_2 -= 2;
-  if (largura < 1040) fontsize_1 -= 2;
-  if (largura < 1040) fontsize_2 -= 2;
-
-  return Container(
-    width: largura,
-    height: responsive_altura,
-    color: Color(0xff535353),
-    child: Row(children: [
-      //===================================================
-      Spacer(flex: 5),
-      //===================================================
-      //  logo
-      Align(
-          alignment: Alignment.center,
-          child: CircularImage(responsive_altura - 10, 'images/Logo.png')),
-      //===================================================
-      Spacer(flex: 2),
-      //===================================================
-      //  textLogo
-      Container(
-          width: 300,
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Align(
-                alignment: Alignment.centerLeft,
-                child: textPerson(
-                    text: 'Facilities Readme',
-                    fontSize: fontsize_1,
-                    color: Colors.white)),
-            Align(
-                alignment: Alignment.centerLeft,
-                child: textPerson(
-                    text: 'faça readmes facil e rapido',
-                    fontSize: fontsize_2,
-                    color: Colors.white)),
-          ])),
-      //===================================================
-      Spacer(flex: 100),
-      //===================================================
-    ]),
-  );
 }
 
 //====================================================
@@ -150,6 +67,7 @@ class _ListBTNState extends State<ListBTN> {
   //
   @override
   Widget build(BuildContext context) {
+    instance.setState_2 = setState;
     void initState() {
       super.initState();
     }
@@ -163,8 +81,8 @@ class _ListBTNState extends State<ListBTN> {
     double largura = MediaQuery.of(context).size.width;
     double responsive_larguraContainer = 700;
     largura < 956 ? smartphone = true : smartphone = false;
+    print(largura);
     //
-    print('passei aqui');
     return Container(
       width: largura,
       child: Column(
@@ -184,7 +102,7 @@ class _ListBTNState extends State<ListBTN> {
                   // color: Colors.red,
                   margin: !smartphone
                       ? EdgeInsets.only(top: 20, bottom: 20, left: 40)
-                      : EdgeInsets.only(top: 0, bottom: 0, left: 0),
+                      : EdgeInsets.only(top: 0, bottom: 0, left: 40, right: 40),
                   //
                   child: !smartphone
                       ? Row(
@@ -196,7 +114,23 @@ class _ListBTNState extends State<ListBTN> {
                                 controller: controllerText,
                                 enabled: enable),
                             //=======================================================
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
+                            //=======================================================
+                            instance.dados[widget.index_x!]['type'] ==
+                                    'Buttom Image'
+                                ? TextFielPerson(responsive_larguraContainer,
+                                    index_x: widget.index_x,
+                                    controller: controllerText_1,
+                                    enabled: enable,
+                                    default_: false,
+                                    textLabel: 'Link')
+                                : Container(),
+                            //=======================================================
+                            instance.dados[widget.index_x!]['type'] ==
+                                    'Buttom Image'
+                                ? SizedBox(width: 20)
+                                : Container(),
+                            //=======================================================
                             !enable
                                 ? BTN_edite(responsive_larguraContainer,
                                     fn: () {
@@ -219,17 +153,22 @@ class _ListBTNState extends State<ListBTN> {
                                             enable = enable ? false : true;
                                           });
                                         }),
-                                        BTN_delete(responsive_larguraContainer,
-                                            fn: () {
-                                          setState(() {
-                                            enable = enable ? false : true;
-                                          });
-                                          instance.dados[widget.index_x!]
-                                              ['type'] = 'delete';
-                                          instance.dados[widget.index_x!]
-                                              ['widget'] = Container();
-                                          instance.setState(() {});
-                                        }),
+                                        instance.itemCount - 1 !=
+                                                widget.index_x!
+                                            ? BTN_delete(
+                                                responsive_larguraContainer,
+                                                fn: () {
+                                                setState(() {
+                                                  enable =
+                                                      enable ? false : true;
+                                                });
+                                                instance.dados[widget.index_x!]
+                                                    ['type'] = 'delete';
+                                                instance.dados[widget.index_x!]
+                                                    ['widget'] = Container();
+                                                instance.setState(() {});
+                                              })
+                                            : Container(),
                                       ],
                                     ),
                                   ),
@@ -242,8 +181,7 @@ class _ListBTNState extends State<ListBTN> {
                           children: [
                             //=======================================================
                             Container(
-                              margin:
-                                  EdgeInsets.only(top: 5, bottom: 5, left: 40),
+                              margin: EdgeInsets.only(top: 5, bottom: 5),
                               width: responsive_larguraContainer,
                               child: TextFielPerson(responsive_larguraContainer,
                                   index_x: widget.index_x,
@@ -251,12 +189,27 @@ class _ListBTNState extends State<ListBTN> {
                                   enabled: enable),
                             ),
                             //=======================================================
+                            instance.dados[widget.index_x!]['type'] ==
+                                    'Buttom Image'
+                                ? Container(
+                                    margin: EdgeInsets.only(top: 5, bottom: 5),
+                                    width: responsive_larguraContainer,
+                                    child: TextFielPerson(
+                                        responsive_larguraContainer,
+                                        index_x: widget.index_x,
+                                        controller: controllerText_1,
+                                        enabled: enable,
+                                        default_: false,
+                                        textLabel: 'Link'),
+                                  )
+                                : Container(),
+                            //=======================================================
                             Align(
                               alignment: Alignment.centerLeft,
                               child: !enable
                                   ? Container(
-                                      margin: EdgeInsets.only(
-                                          top: 5, bottom: 5, left: 40),
+                                      margin:
+                                          EdgeInsets.only(top: 5, bottom: 5),
                                       width: responsive_larguraContainer * 0.25,
                                       child: BTN_edite(
                                           responsive_larguraContainer, fn: () {
@@ -279,18 +232,24 @@ class _ListBTNState extends State<ListBTN> {
                                               enable = enable ? false : true;
                                             });
                                           }),
-                                          BTN_delete(
-                                              responsive_larguraContainer,
-                                              fn: () {
-                                            setState(() {
-                                              enable = enable ? false : true;
-                                            });
-                                            instance.dados[widget.index_x!]
-                                                ['type'] = 'delete';
-                                            instance.dados[widget.index_x!]
-                                                ['widget'] = Container();
-                                            instance.setState(() {});
-                                          }),
+                                          instance.itemCount - 1 !=
+                                                  widget.index_x!
+                                              ? BTN_delete(
+                                                  responsive_larguraContainer,
+                                                  fn: () {
+                                                  setState(() {
+                                                    enable =
+                                                        enable ? false : true;
+                                                  });
+                                                  instance.dados[
+                                                          widget.index_x!]
+                                                      ['type'] = 'delete';
+                                                  instance.dados[
+                                                          widget.index_x!]
+                                                      ['widget'] = Container();
+                                                  instance.setState(() {});
+                                                })
+                                              : Container(),
                                         ],
                                       ),
                                     ),
@@ -305,27 +264,18 @@ class _ListBTNState extends State<ListBTN> {
                       // color: Colors.red,
                       width: 700,
                       margin: EdgeInsets.only(left: 40),
-                      child: Center(
-                          child: InkWell(
-                        onTap: () {
-                          int id = instance.itemCount++;
-                          instance.dados.add({
-                            'id': id,
-                            'type': 'H1',
-                            'args': '',
-                            'args2': '',
-                            'widget': ListBTN(id)
-                          });
-                          setState(() {
-                            enable = false;
-                          });
-                          instance.setState(() {});
-                        },
-                        child: CircularImage(100, 'images/BTN_plus.png',
-                            enable: false),
-                      ))),
+                      child: Center(child: BTN_plus(enable, setState))),
                 )
-              : Container()
+              : Container(),
+          SizedBox(height: 5),
+          instance.itemCount - 1 == widget.index_x!
+              ? Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                      margin: EdgeInsets.only(left: 40, top: 20),
+                      width: 700,
+                      child: btn_GerarReadme()))
+              : Container(),
         ],
       ),
     );
@@ -350,6 +300,7 @@ class _Rows_BTNsState extends State<Rows_BTNs> {
     {'type': 'H2', 'status': false},
     {'type': 'H3', 'status': false},
     {'type': 'Text', 'status': false},
+    {'type': 'code', 'status': false},
     {'type': 'Image', 'status': false},
     {'type': 'Buttom Image', 'status': false},
   ];
@@ -374,6 +325,7 @@ class _Rows_BTNsState extends State<Rows_BTNs> {
           BTNS[i]['status'] = false;
         }
       }
+      instance.setState_2(() {});
       return BTNS;
     }
 
@@ -389,17 +341,6 @@ class _Rows_BTNsState extends State<Rows_BTNs> {
     double largura = MediaQuery.of(context).size.width;
     return Column(
       children: [
-        //===============================================
-        // Text Type
-        Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              width: 700,
-              // color: Colors.red,
-              margin: EdgeInsets.only(top: 20, bottom: 5, left: 40),
-              child: textPerson(text: "Type:  " + isType()),
-            )),
-        //
         widget.enable!
             ? Align(
                 alignment: Alignment.centerLeft,
@@ -433,6 +374,80 @@ class _Rows_BTNsState extends State<Rows_BTNs> {
               )
             : Container(),
       ],
+    );
+  }
+}
+
+class btn_GerarReadme extends StatelessWidget {
+  const btn_GerarReadme({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    double largura = MediaQuery.of(context).size.width;
+    double responsive = 0;
+    if (largura < 1450) responsive -= 10;
+    if (largura < 650) responsive -= 10;
+    if (largura < 550) responsive -= 10;
+    print(largura);
+    return Align(
+        alignment: Alignment.centerLeft,
+        child: Container(
+            margin: EdgeInsets.only(bottom: 100),
+            width: 700 + (responsive * 2),
+            height: 70 + (responsive * .5),
+            child: Align(
+                alignment: Alignment.center,
+                child: InkWell(
+                    onTap: () {
+                      //
+                      instance.text_pass = instance.gerar();
+                      Get.to(() => Page_2());
+                      //
+                    },
+                    child: Container(
+                        height: 70,
+                        width: 200,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            color: Color(0xff55FFC2),
+                            boxShadow: Efeito_sombra()),
+                        child: Center(
+                          child: textPerson(
+                              enable: false,
+                              text: 'Gerar README >>',
+                              fontSize: 20 + (responsive * 0.1)),
+                        ))))));
+  }
+}
+
+class BTN_plus extends StatelessWidget {
+  BTN_plus(this.enable, this.setState, {super.key});
+  var enable;
+  var setState;
+  @override
+  Widget build(BuildContext context) {
+    double largura = MediaQuery.of(context).size.width;
+    double responsive = 0;
+    if (largura < 1450) responsive -= 10;
+    if (largura < 650) responsive -= 10;
+    if (largura < 550) responsive -= 10;
+    return InkWell(
+      onTap: () {
+        int id = instance.itemCount++;
+        instance.dados.add({
+          'id': id,
+          'type': 'H1',
+          'args': '',
+          'args2': '',
+          'widget': ListBTN(id)
+        });
+        setState(() {
+          enable = false;
+        });
+        instance.setState(() {});
+      },
+      child:
+          CircularImage(100 + responsive, 'images/BTN_plus.png', enable: false),
     );
   }
 }
